@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>QA Testing Feedback</title>
+<meta name="description" content="A short, anonymous-optional feedback form for the dev team on the Castle QA testing.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Figtree:wght@400;500;600&display=swap">
+<style>
+:root{
+  --bg:#eef0f4; --surface:#ffffff; --surface-2:#f6f7f9;
+  --fg:#1a2030; --muted:#5b6476; --line:#e1e4ea; --line-2:#d3d7df;
+  --accent:#b5862a; --accent-fill:#c9a24c; --accent-soft:#f3ead3;
+  --ink-on-accent:#1a1405; --good:#2e7d4f;
+  --shadow:0 1px 2px rgba(20,28,45,.05), 0 8px 24px rgba(20,28,45,.05);
+  --r:14px; color-scheme:light;
+}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+  --bg:#0f1218; --surface:#171c26; --surface-2:#1e2430;
+  --fg:#e7eaf2; --muted:#98a1b3; --line:#2a3140; --line-2:#333c4d;
+  --accent:#d8b05a; --accent-fill:#c9a24c; --accent-soft:#2a2414;
+  --ink-on-accent:#1a1405; --good:#54b784;
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.35); color-scheme:dark;
+} }
+:root[data-theme="dark"]{
+  --bg:#0f1218; --surface:#171c26; --surface-2:#1e2430;
+  --fg:#e7eaf2; --muted:#98a1b3; --line:#2a3140; --line-2:#333c4d;
+  --accent:#d8b05a; --accent-fill:#c9a24c; --accent-soft:#2a2414;
+  --ink-on-accent:#1a1405; --good:#54b784;
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.35); color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg); color:var(--fg); font-family:"Figtree",system-ui,-apple-system,Segoe UI,Roboto,sans-serif; line-height:1.5;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);}
+.wrap{ max-width:720px; margin:0 auto;
+  padding-left:max(16px, env(safe-area-inset-left,0px));
+  padding-right:max(16px, env(safe-area-inset-right,0px));
+  padding-block:30px 130px; }
+h1,h2,.eyebrow{font-family:"Bricolage Grotesque","Figtree",system-ui,sans-serif;}
+.eyebrow{ text-transform:uppercase; letter-spacing:.16em; font-size:12px; font-weight:700; color:var(--accent); margin:0 0 6px; }
+h1{ font-size:clamp(26px,5vw,34px); line-height:1.1; margin:0 0 10px; text-wrap:balance; font-weight:700; }
+.lede{ color:var(--muted); font-size:15.5px; max-width:60ch; margin:0 0 4px; }
+.meta{ color:var(--muted); font-size:13px; margin:10px 0 0; }
+.card{ background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:18px 18px 20px; box-shadow:var(--shadow); }
+.stack{ display:flex; flex-direction:column; gap:16px; margin-top:22px; }
+.q{ font-size:16px; font-weight:600; margin:0 0 3px; }
+.q .n{ color:var(--accent); font-variant-numeric:tabular-nums; margin-right:8px; }
+.hint{ color:var(--muted); font-size:13.5px; margin:0 0 12px; }
+.scale{ display:flex; gap:8px; flex-wrap:wrap; }
+.scale button{ flex:1 1 56px; min-width:52px; appearance:none; cursor:pointer; font:inherit; font-weight:600; font-variant-numeric:tabular-nums;
+  padding:12px 0; border-radius:10px; border:1px solid var(--line-2); background:var(--surface-2); color:var(--fg);
+  transition:transform .06s ease, background .12s, border-color .12s; }
+.scale button:hover{ border-color:var(--accent); }
+.scale button:active{ transform:translateY(1px); }
+.scale button[aria-pressed="true"]{ background:var(--accent-fill); border-color:var(--accent-fill); color:var(--ink-on-accent); box-shadow:0 2px 8px rgba(201,162,76,.35); }
+.ends{ display:flex; justify-content:space-between; color:var(--muted); font-size:12px; margin-top:8px; }
+textarea, input[type=text]{ width:100%; font:inherit; color:var(--fg); background:var(--surface-2); border:1px solid var(--line-2); border-radius:10px; padding:11px 12px; resize:vertical; }
+textarea{ min-height:84px; }
+textarea:focus, input:focus{ outline:2px solid var(--accent); outline-offset:1px; border-color:var(--accent); }
+.two{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+@media (max-width:480px){ .two{ grid-template-columns:1fr; } }
+label.fld{ display:block; font-size:13.5px; font-weight:600; color:var(--muted); margin:0 0 6px; }
+.bar{ position:fixed; left:0; right:0; bottom:0; z-index:20; background:color-mix(in srgb, var(--surface) 92%, transparent); backdrop-filter:blur(8px); border-top:1px solid var(--line);
+  padding-left:max(16px, env(safe-area-inset-left,0px)); padding-right:max(16px, env(safe-area-inset-right,0px)); padding-top:12px; padding-bottom:max(12px, env(safe-area-inset-bottom,0px)); }
+.bar .inner{ max-width:720px; margin:0 auto; display:flex; align-items:center; gap:12px; justify-content:space-between; flex-wrap:wrap; }
+.btn{ appearance:none; cursor:pointer; font:inherit; font-weight:700; border-radius:11px; border:1px solid transparent; padding:12px 20px; background:var(--accent-fill); color:var(--ink-on-accent); box-shadow:0 2px 10px rgba(201,162,76,.4); transition:transform .06s, filter .12s; }
+.btn:hover{ filter:brightness(1.04); } .btn:active{ transform:translateY(1px); }
+.btn:disabled{ opacity:.6; cursor:default; }
+.btn.secondary{ background:transparent; color:var(--fg); border-color:var(--line-2); box-shadow:none; }
+.status{ color:var(--muted); font-size:13.5px; min-height:1em; }
+.status.ok{ color:var(--good); font-weight:600; } .status.err{ color:#c0392b; font-weight:600; }
+.footnote{ color:var(--muted); font-size:12.5px; margin-top:12px; line-height:1.55; }
+#done{ text-align:center; padding:60px 10px; }
+#done h2{ font-size:26px; margin:0 0 8px; }
+#done p{ color:var(--muted); max-width:46ch; margin:0 auto; }
+.check{ width:56px; height:56px; border-radius:50%; background:var(--accent-fill); color:var(--ink-on-accent); display:flex; align-items:center; justify-content:center; margin:0 auto 18px; font-size:30px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div id="app">
+    <header>
+      <p class="eyebrow">Castle &middot; QA</p>
+      <h1>How has the testing been?</h1>
+      <p class="lede">A quick read on the QA testing you've been getting on your tickets. Honest answers help me tighten it up. About two minutes, and every question is optional.</p>
+      <p class="meta">1 = needs work &nbsp;&middot;&nbsp; 5 = great. Name and team are optional &mdash; leave them blank to stay anonymous.</p>
+    </header>
+
+    <form id="form" class="stack" autocomplete="off" novalidate>
+      <section class="card">
+        <p class="q"><span class="n">1</span>Overall, how has your experience been with the QA testing?</p>
+        <div class="scale" data-key="overall" role="group" aria-label="Overall experience, 1 to 5"></div>
+        <div class="ends"><span>1 &mdash; poor</span><span>5 &mdash; great</span></div>
+      </section>
+      <section class="card">
+        <p class="q"><span class="n">2</span>Timeliness &mdash; were tickets picked up and returned quickly enough?</p>
+        <div class="scale" data-key="timeliness" role="group" aria-label="Timeliness, 1 to 5"></div>
+        <div class="ends"><span>1 &mdash; too slow</span><span>5 &mdash; fast</span></div>
+      </section>
+      <section class="card">
+        <p class="q"><span class="n">3</span>Quality &mdash; how thorough and accurate was the testing?</p>
+        <div class="scale" data-key="quality" role="group" aria-label="Quality, 1 to 5"></div>
+        <div class="ends"><span>1 &mdash; shallow</span><span>5 &mdash; thorough</span></div>
+      </section>
+      <section class="card">
+        <p class="q"><span class="n">4</span>Communication &mdash; were the results, proof, and follow-ups clear?</p>
+        <div class="scale" data-key="communication" role="group" aria-label="Communication, 1 to 5"></div>
+        <div class="ends"><span>1 &mdash; unclear</span><span>5 &mdash; very clear</span></div>
+      </section>
+      <section class="card">
+        <p class="q"><span class="n">5</span>What's working well?</p>
+        <p class="hint">The parts you'd want kept.</p>
+        <textarea data-key="working" placeholder="e.g. clear pass/fail with screenshots, tested the real flow..."></textarea>
+      </section>
+      <section class="card">
+        <p class="q"><span class="n">6</span>Any mistakes, errors, or things that got missed?</p>
+        <p class="hint">Be specific if you can &mdash; a ticket, a bug that slipped through, a wrong call.</p>
+        <textarea data-key="mistakes" placeholder="e.g. a case where the result was wrong, or something not caught..."></textarea>
+      </section>
+      <section class="card">
+        <p class="q"><span class="n">7</span>Any concerns about how testing is handled?</p>
+        <p class="hint">Process, coverage, risk, anything that worries you.</p>
+        <textarea data-key="concerns" placeholder="e.g. coverage gaps, things that feel risky, repeated issues..."></textarea>
+      </section>
+      <section class="card">
+        <p class="q"><span class="n">8</span>What would you want more of, less of, or done differently?</p>
+        <textarea data-key="suggestions" placeholder="e.g. more edge cases, earlier updates, a different report format..."></textarea>
+      </section>
+      <section class="card">
+        <p class="q"><span class="n">9</span>Any new ideas, or things you'd like to see from the QA automation?</p>
+        <p class="hint">Checks worth adding, tools, coverage, a report or alert you'd want &mdash; anything.</p>
+        <textarea data-key="ideas" placeholder="e.g. auto-checks on X before each release, a dashboard for Y, a ping when Z breaks..."></textarea>
+      </section>
+      <section class="card">
+        <p class="q"><span class="n">10</span>Anything else?</p>
+        <textarea data-key="comments" placeholder="Open floor."></textarea>
+      </section>
+      <section class="card">
+        <div class="two">
+          <div><label class="fld" for="name">Name (optional)</label><input type="text" id="name" data-key="name" placeholder="Your name"></div>
+          <div><label class="fld" for="team">Team / role (optional)</label><input type="text" id="team" data-key="team" placeholder="e.g. Backend, Games"></div>
+        </div>
+      </section>
+      <p class="footnote">Your feedback goes straight to the QA inbox. Nothing is shown to other people filling this out.</p>
+    </form>
+  </div>
+
+  <div id="done" hidden>
+    <div class="check" aria-hidden="true">&#10003;</div>
+    <h2>Thanks &mdash; got it.</h2>
+    <p>Your feedback has been sent. It genuinely helps shape how the testing runs. You can close this tab.</p>
+  </div>
+</div>
+
+<div class="bar" id="bar">
+  <div class="inner">
+    <span id="status" class="status" aria-live="polite"></span>
+    <div style="display:flex; gap:10px;">
+      <button type="button" id="clearBtn" class="btn secondary">Clear</button>
+      <button type="button" id="submitBtn" class="btn">Submit feedback</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  // Responses are emailed via FormSubmit (no account). Swap this to the hashed alias after activation to hide the address.
+  var ENDPOINT="https://formsubmit.co/ajax/ahmedayub314@gmail.com";
+  var DRAFT="qa-feedback-draft-v1";
+  var state={ overall:null, timeliness:null, quality:null, communication:null,
+              working:"", mistakes:"", concerns:"", suggestions:"", ideas:"", comments:"", name:"", team:"" };
+  try{ var s=JSON.parse(localStorage.getItem(DRAFT)||"null"); if(s&&typeof s==="object"){ for(var k in state){ if(k in s) state[k]=s[k]; } } }catch(e){}
+  function persist(){ try{ localStorage.setItem(DRAFT, JSON.stringify(state)); }catch(e){} }
+
+  document.querySelectorAll(".scale").forEach(function(group){
+    var key=group.getAttribute("data-key");
+    for(var i=1;i<=5;i++){ (function(val){
+      var b=document.createElement("button"); b.type="button"; b.textContent=String(val);
+      b.setAttribute("aria-pressed", state[key]===val?"true":"false");
+      b.setAttribute("aria-label", key+" "+val+" of 5");
+      b.addEventListener("click", function(){
+        state[key]=(state[key]===val)?null:val;
+        group.querySelectorAll("button").forEach(function(btn,idx){ btn.setAttribute("aria-pressed",(idx+1)===state[key]?"true":"false"); });
+        persist(); setStatus("");
+      });
+      group.appendChild(b);
+    })(i); }
+  });
+  document.querySelectorAll("textarea[data-key], input[data-key]").forEach(function(el){
+    var key=el.getAttribute("data-key"); if(key in state) el.value=state[key]||"";
+    el.addEventListener("input", function(){ state[key]=el.value; persist(); });
+  });
+
+  var statusEl=document.getElementById("status");
+  function setStatus(m, cls){ statusEl.textContent=m||""; statusEl.className="status"+(cls?(" "+cls):""); }
+  function anyAnswered(){
+    if(state.overall||state.timeliness||state.quality||state.communication) return true;
+    return ["working","mistakes","concerns","suggestions","ideas","comments"].some(function(k){ return (state[k]||"").trim(); });
+  }
+  function payload(){
+    var who=[]; if(state.name) who.push(state.name); if(state.team) who.push(state.team);
+    return {
+      _subject:"New Castle QA feedback",
+      _template:"table",
+      _captcha:"false",
+      "From":who.length?who.join(" — "):"(anonymous)",
+      "Overall experience":state.overall?state.overall+"/5":"—",
+      "Timeliness":state.timeliness?state.timeliness+"/5":"—",
+      "Quality":state.quality?state.quality+"/5":"—",
+      "Communication":state.communication?state.communication+"/5":"—",
+      "Working well":state.working||"—",
+      "Mistakes / missed":state.mistakes||"—",
+      "Concerns":state.concerns||"—",
+      "Suggestions":state.suggestions||"—",
+      "Ideas for QA automation":state.ideas||"—",
+      "Other":state.comments||"—"
+    };
+  }
+
+  var submitBtn=document.getElementById("submitBtn");
+  submitBtn.addEventListener("click", function(){
+    if(!anyAnswered()){ setStatus("Answer at least one question first."); return; }
+    submitBtn.disabled=true; setStatus("Sending...");
+    fetch(ENDPOINT, { method:"POST", headers:{ "Content-Type":"application/json", "Accept":"application/json" }, body:JSON.stringify(payload()) })
+      .then(function(r){ return r.json().catch(function(){ return {}; }).then(function(j){ return {ok:r.ok, j:j}; }); })
+      .then(function(res){
+        if(res.ok && (res.j.success===true || res.j.success==="true")){
+          try{ localStorage.removeItem(DRAFT); }catch(e){}
+          document.getElementById("app").hidden=true;
+          document.getElementById("bar").hidden=true;
+          document.getElementById("done").hidden=false;
+          window.scrollTo(0,0);
+        } else {
+          submitBtn.disabled=false;
+          setStatus((res.j && res.j.message) ? res.j.message : "Couldn't send just now — please try again.", "err");
+        }
+      })
+      .catch(function(){ submitBtn.disabled=false; setStatus("Network issue — please try again in a moment.", "err"); });
+  });
+
+  document.getElementById("clearBtn").addEventListener("click", function(){
+    for(var k in state){ state[k]=(typeof state[k]==="number"||state[k]===null)?null:""; }
+    state.working=state.mistakes=state.concerns=state.suggestions=state.ideas=state.comments=state.name=state.team="";
+    document.querySelectorAll(".scale button").forEach(function(b){ b.setAttribute("aria-pressed","false"); });
+    document.querySelectorAll("textarea[data-key], input[data-key]").forEach(function(el){ el.value=""; });
+    persist(); setStatus("Cleared.");
+  });
+})();
+</script>
+</body>
+</html>
